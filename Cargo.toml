@@ -1,0 +1,16 @@
+[package]
+name = "autoroute2"
+version = "2.0.0"
+authors = ["Francis Lalonde <fralalonde@gmail.com>"]
+edition = "2021"
+
+[profile.release]
+opt-level = 'z'  # Optimize for size.
+codegen-units = 1
+lto = true
+
+[dependencies]
+alsa = "0.9"
+clap = { version = "4", features = ["derive", "cargo"] }
+ratatui = "0.28"
+crossterm = "0.28"
