@@ -35,6 +35,25 @@ pub fn list_ports(seq: &Seq) -> HashMap<String, Addr> {
     ports
 }
 
+pub fn list_addr(seq: &Seq) -> HashMap<Addr, String> {
+    let mut ports = HashMap::new();
+
+    // Iterate over clients and their ports
+    for client in ClientIter::new(seq) {
+        for port in PortIter::new(seq, client.get_client()) {
+            let client_name = client.get_name().unwrap_or("Unknown Client");
+            let port_name = port.get_name().unwrap_or("Unknown Port");
+            let addr = Addr {
+                client: client.get_client(),
+                port: port.get_port(),
+            };
+            ports.insert(addr, format!("{}:{}", client_name, port_name));
+        }
+    }
+
+    ports
+}
+
 pub(crate) struct ClientPortInfo {
     pub client_name: String,
     pub client_id: i32,
@@ -61,6 +80,7 @@ pub fn vec_ports(seq: &Seq) -> Vec<ClientPortInfo> {
 
     ports
 }
+
 
 pub fn connect_ports(seq: &Seq, config: &crate::config::Config, ports: &HashMap<String, Addr>) {
     for (source, dests) in &config.connections {

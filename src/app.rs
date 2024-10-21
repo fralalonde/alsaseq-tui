@@ -22,7 +22,7 @@ impl App {
         App {
             seq,
             ports,
-            state,
+            state,      
             active_tab: 0,      // Start with the Info tab selected
         }
     }
